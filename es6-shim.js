@@ -829,22 +829,9 @@
       };
       defineProperties(globals, collectionShims);
 
-      if (globals.Map || globals.Set) {
-        /*
-          - In Firefox < 23, Map#size is a function.
-          - In all current Firefox, Set#entries/keys/values & Map#clear do not exist
-          - https://bugzilla.mozilla.org/show_bug.cgi?id=869996
-        */
-        if (
-          typeof globals.Map.prototype.clear !== 'function' ||
-          new globals.Set().size !== 0 ||
-          new globals.Map().size !== 0 ||
-          typeof globals.Set.prototype.keys !== 'function'
-        ) {
-          globals.Map = collectionShims.Map;
-          globals.Set = collectionShims.Set;
-        }
-      }
+      // force using shimed implementations of Map and Set
+      globals.Map = collectionShims.Map;
+      globals.Set = collectionShims.Set;
     }
   };
 
